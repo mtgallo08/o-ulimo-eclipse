@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
       3: { pergunta: "Qual alternativa apresenta apenas planetas rochosos?", 
          alternativas: ["A) Terra, Marte, Júpiter e Saturno.", "B) Mercúrio, Vênus, Terra e Marte.", "C) Júpiter, Saturno, Urano e Netuno."], 
          correta: 1 },
-      4: { pergunta: "Se os astronautas estiverem em Marte e quiserem chegar à Terra seguindo a ordem dos planetas em relação ao Sol, qual planeta encontrarão primeiro?", 
-         alternativas: ["A) Vênus.", "B) Júpiter.", "C) Mercúrio."], 
-         correta: 0 },
+      4: { pergunta: "Os astronautas observam várias estrelas no céu e percebem que algumas parecem formar um desenho quando vistas da Terra. Como esse conjunto pode ser chamado?", 
+        alternativas: ["A) Constelação.", "B) Sistema Solar.", "C) Atmosfera."], 
+        correta: 0 },
     },
 
     jupiter:{
@@ -160,9 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
         correta: 2 },
       4: { pergunta: " Durante a viagem, os astronautas observam a Lua acompanhando a Terra. Qual afirmação explica corretamente essa relação?", 
         alternativas: ["A) A Lua é um satélite natural que gira ao redor da Terra.", "B) A Lua é uma estrela que gira ao redor do Sol.", "C) A Lua é um planeta que gira ao redor de Marte."], 
-        correta: 0 },
-      5: { pergunta: "Os astronautas observam várias estrelas no céu e percebem que algumas parecem formar um desenho quando vistas da Terra. Como esse conjunto pode ser chamado?", 
-        alternativas: ["A) Constelação.", "B) Sistema Solar.", "C) Atmosfera."], 
         correta: 0 },
     }
   };

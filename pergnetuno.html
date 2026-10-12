@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafios de Netuno - O Último Eclipse</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="inicio.html">
+    <div class="nav-logo-art">
+      <img src="img/logo.jpg" alt="O Último Eclipse">
+    </div>
+    <span>O Último Eclipse</span>
+  </a>
+  
+  <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  <nav class="nav">
+    <a href="inicio.html">Início</a>
+    <a href="comojogar.html">Como Jogar?</a>
+    <a href="curiosidades.html">Curiosidades</a>
+    <a href="planetas.html">Planetas</a>
+    <a href="quizespacial.html">Quiz Espacial</a>
+    <a href="nossoprojeto.html">Nosso Projeto</a>
+  </nav>
+</header>
+
+<main data-planeta="netuno">
+  <section class="page-hero compact">
+    <div>
+      <p class="eyebrow">MISSÃO: NETUNO</p>
+      <h1>Escolha um <span>Desafio</span></h1>
+      <p class="lead">Selecione uma pergunta para responder.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="quiz-wrap">
+      
+      <!-- Lista das 4 perguntas (O jogador clica em uma para abrir) -->
+      <div id="lista-perguntas" class="answer-options">
+        <h3>Perguntas:</h3>
+        <button class="answer-option btn-pergunta" data-id="1">🔹 Pergunta 1</button>
+        <button class="answer-option btn-pergunta" data-id="2">🔹 Pergunta 2</button>
+        <button class="answer-option btn-pergunta" data-id="3">🔹 Pergunta 3</button>
+        <button class="answer-option btn-pergunta" data-id="4">🔹 Pergunta 4</button>
+      </div>
+
+      <!-- Caixa onde aparece a pergunta selecionada e as alternativas (inicialmente oculta) -->
+      <div id="painel-quiz" class="quiz-box" style="display: none; margin-top: 20px;">
+        <h2 id="texto-pergunta">Carregando...</h2>
+        <div id="opcoes-respostas" class="answer-options"></div>
+        <p id="feedback-resposta" class="feedback"></p>
+        <div class="center-actions">
+          <button class="button" id="voltar-lista" style="display: none;">← Voltar às Perguntas</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-content" style="display: flex; align-items: center; justify-content: space-between;">
+    <div class="footer-side-art">
+      <img src="img/astronalta.avif" alt="Astronauta" style="max-height: 80px; width: auto;">
+    </div>
+    <div class="footer-text" style="text-align: center;">
+      <a class="brand" href="inicio.html">O Último Eclipse</a>
+      <p class="small">Site educativo para pequenos exploradores do universo.</p>
+    </div>
+    <div class="footer-side-art">
+      <img src="img/et.png" alt="Alienígena" style="max-height: 80px; width: auto;">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

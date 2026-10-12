@@ -1,0 +1,636 @@
+:root{
+    --navy:#061538;
+    --navy2:#102858;
+    --yellow:#ffc629;
+    --ink:#10234d;
+    --muted:#526486;
+    --pale:#f6f8ff;
+    --line:#e1e8f5
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0
+}
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:90px
+}
+
+body{
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    background:var(--pale);
+    line-height:1.6
+}
+
+a{
+    color:inherit;
+    text-decoration:none
+}
+
+button, input{
+    font:inherit
+}
+
+/* --- CABEÇALHO E NAVBAR --- */
+.site-header{
+    min-height:72px;
+    padding:12px 4%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+    background:var(--navy);
+    color:#fff;
+    border-bottom:2px solid #233e77;
+    position:sticky;
+    top:0;
+    z-index:20
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 900;
+    font-size: 26px;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--yellow);
+    white-space: nowrap;
+}
+
+.nav-logo-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-logo-art img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+    background-color: #0b1d3a;
+    padding: 2px;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo-art img:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(10px,1.7vw,26px);
+    flex-wrap:wrap
+}
+
+.nav a{
+    font-size:13px;
+    padding:7px 0;
+    transition:color .2s;
+    border-bottom:2px solid transparent
+}
+
+.nav a:hover,
+.nav a.active {
+    color: var(--yellow);
+    border-bottom-color: var(--yellow);
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #49649a;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* --- HERO E SECÇÕES --- */
+.hero {
+    background: radial-gradient(ellipse at 80% 40%, #152c66 0%, transparent 45%), radial-gradient(circle at 20% 20%, #172b60 0%, transparent 35%), var(--navy);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-hero {
+    background: var(--navy);
+    min-height: 400px;
+    padding: 60px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+}
+
+.hero-copy,
+.page-hero > div:first-child {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-image {
+    flex: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    object-fit: cover;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #a8c1ff;
+    margin-bottom: 10px;
+}
+
+.eyebrow.dark {
+    color: #6279a9;
+}
+
+h1 {
+    font-size: clamp(36px, 4.7vw, 60px);
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+h1 span {
+    color: var(--yellow);
+}
+
+.lead {
+    font-size: 16px;
+    max-width: 600px;
+    line-height: 1.75;
+    color: #e2eaff;
+    margin: 17px 0 22px;
+}
+
+/* --- BOTÕES --- */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 30px;
+    background: var(--yellow);
+    color: #172447;
+    font-weight: 900;
+    padding: 13px 23px;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px #ffc62940;
+}
+
+.button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- SEÇÕES E GRELHAS --- */
+.section {
+    padding: 48px 5%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+}
+
+.section-heading h2,
+.section h2,
+.callout h2 {
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.section-heading p {
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+.topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.topic-card {
+    display: block;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    padding: 0 0 20px;
+    box-shadow: 0 4px 16px #152d5709;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px #152d5718;
+}
+
+.topic-art {
+    height: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 67px;
+    background: radial-gradient(circle at 50% 45%, #1d3e7b, #061538 78%);
+}
+
+.art-planets { gap: 10px; font-size: 46px; }
+.art-curiosities { color: #b5caff; }
+
+.topic-card h3 {
+    font-size: 21px;
+    margin: 14px 18px 6px;
+}
+
+.topic-card p {
+    font-size: 14px;
+    color: #52617e;
+    line-height: 1.65;
+    margin: 0 18px 13px;
+}
+
+.card-link {
+    display: inline-block;
+    color: #315ba5;
+    font-weight: 900;
+    font-size: 14px;
+    margin: 0 18px;
+}
+
+.callout {
+    margin: 5px 5% 45px;
+    padding: 25px 30px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    border-radius: 22px;
+    background: linear-gradient(120deg, #fff1c5, #e8efff);
+}
+
+.callout > div:nth-child(2) {
+    flex: 1;
+}
+
+.callout p:not(.eyebrow) {
+    color: #52617e;
+    margin-top: 6px;
+}
+
+.astronaut {
+    font-size: 54px;
+}
+
+.page-hero {
+    min-height: 300px;
+    padding: 42px 7%;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 35px;
+    background: radial-gradient(ellipse at 80% 30%, #1a3a7b, transparent 55%), var(--navy);
+    color: #fff;
+    overflow: hidden;
+}
+
+.page-hero.compact {
+    min-height: 250px;
+}
+
+.notice {
+    margin: 30px 0;
+    padding: 18px 20px;
+    border-left: 5px solid var(--yellow);
+    border-radius: 10px;
+    background: #fff5d8;
+    color: #384765;
+}
+
+/* --- PLANETAS --- */
+.planet-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.planet-card {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 18px #152d5708;
+}
+
+.planet-display {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #eaf0ff, #f8faff);
+    border-radius: 16px;
+}
+
+.planet-img {
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: contain;
+}
+
+.planet-info h3 {
+    font-size: 25px;
+    margin: 3px 0 5px;
+}
+
+.planet-order {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #6d7fa3;
+}
+
+/* --- CURIOSIDADES E CARDS GERAIS --- */
+.fact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.fact-card {
+    padding: 23px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 4px 15px #152d5708;
+}
+
+.fact-card > span {
+    font-size: 40px;
+}
+
+.fact-card h3 {
+    margin: 10px 0 6px;
+}
+
+.fact-card p {
+    font-size: 14px;
+    color: #52617e;
+}
+
+/* --- ESTILO ESPECÍFICO: COMO JOGAR --- */
+.fact-grid:has(.card-como-jogar) {
+    display: block !important;
+}
+
+.card-como-jogar {
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 50px !important;
+}
+
+.card-como-jogar h3 {
+    font-size: 28px !important;
+    margin-bottom: 15px !important;
+}
+
+.card-como-jogar p {
+    font-size: 18px !important;
+    line-height: 1.8 !important;
+}
+
+/* --- QUIZ E PAINÉIS DE PERGUNTAS --- */
+.quiz-wrap {
+    max-width: 850px;
+    margin: auto;
+}
+
+.quiz-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(22px, 5vw, 45px);
+    box-shadow: 0 12px 30px #1028580c;
+}
+
+.quiz-box h2 {
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+.answer-options {
+    display: grid;
+    gap: 12px;
+}
+
+.answer-option {
+    width: 100%;
+    text-align: left;
+    padding: 14px 17px;
+    border: 2px solid #e0e7f4;
+    background: #f9faff;
+    border-radius: 13px;
+    cursor: pointer;
+    color: var(--ink);
+    transition: border .2s, background .2s;
+}
+
+.answer-option:hover:not(:disabled) {
+    border-color: #8ba7e0;
+    background: #f0f4ff;
+}
+
+.answer-option.correct {
+    border-color: #36a76b;
+    background: #e8f8ee;
+}
+
+.answer-option.wrong {
+    border-color: #df6262;
+    background: #fff0f0;
+}
+
+.feedback {
+    min-height: 28px;
+    text-align: center;
+    font-weight: 900;
+    margin: 16px 0;
+    color: #38527f;
+}
+
+.center-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+/* --- PÁGINA NOSSO PROJETO --- */
+.section.secao-projeto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.fact-card.projeto-destaque {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.fact-card.projeto-destaque span {
+    font-size: 3rem;
+}
+
+.fact-card.projeto-destaque h3 {
+    font-size: 2rem;
+    margin: 15px 0;
+}
+
+.fact-card.projeto-destaque p {
+    font-size: 1.2rem;
+}
+
+/* --- RODAPÉ --- */
+.footer {
+    text-align: center;
+    background: #040e27;
+    color: #fff;
+    padding: 25px 15px;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    color: var(--yellow);
+}
+
+.footer-side-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-side-art img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+    background-color: #0b1d3a;
+    padding: 4px;
+    transition: transform 0.3s ease;
+}
+
+.footer-side-art img:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.footer .small {
+    font-size: 13px;
+    color: #aabbe2;
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 1100px) {
+    .site-header {
+        flex-wrap: wrap;
+    }
+    .nav {
+        order: 3;
+        width: 100%;
+        gap: 16px;
+    }
+    .home-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .planet-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .site-header {
+        position: relative;
+        justify-content: space-between;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .nav {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+    }
+    .nav.open {
+        display: flex;
+    }
+    .nav a {
+        padding: 10px;
+        border-bottom: 1px solid #ffffff15;
+    }
+    .topic-grid,
+    .fact-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 35px 6%;
+    }
+    .callout {
+        flex-direction: column;
+        text-align: center;
+    }
+}

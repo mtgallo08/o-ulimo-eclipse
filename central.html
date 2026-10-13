@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Controle — O Último Eclipse</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #161b26;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 15px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: var(--text-main);
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            background-color: #1f2937;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: var(--accent);
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover { background-color: #dc2626; }
+        .btn-warning { background-color: var(--warning); color: #000; }
+        .btn-warning:hover { background-color: #d97706; }
+        
+        .player-card {
+            background: #1f2937;
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .player-info {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #374151;
+            margin-top: 4px;
+        }
+        .history-box {
+            max-height: 150px;
+            overflow-y: auto;
+            background: #111827;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .storage-note {
+            font-size: 12px;
+            color: var(--warning);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🪐 Central de Controle</h1>
+    <h2>O Último Eclipse</h2>
+    <div class="storage-note">⚠️ Nota: Os dados desta partida ficam salvos apenas neste navegador e aparelho atual.</div>
+
+    <!-- Tela de Cadastro -->
+    <div id="setup-screen" class="card">
+        <h3>Cadastrar Jogadores (Até 20)</h3>
+        <input type="text" id="player-name" placeholder="Nome do Jogador">
+        <button onclick="addPlayer()">Adicionar Jogador</button>
+        <p>Jogadores cadastrados: <span id="player-count">0</span>/20</p>
+        <div id="setup-list"></div>
+        <button onclick="startMatch()" class="btn-success" style="background-color: var(--success);">Iniciar Partida 🚀</button>
+    </div>
+
+    <!-- Tela da Partida -->
+    <div id="game-screen" style="display:none;">
+        <div class="card">
+            <button onclick="undoLastAction()" class="btn-warning">↩️ Desfazer Última Ação</button>
+            <button onclick="resetMatch()" class="btn-danger">🔄 Reiniciar / Nova Partida</button>
+        </div>
+
+        <div id="players-container"></div>
+
+        <div class="card">
+            <h3>📜 Histórico de Alterações</h3>
+            <div id="history-log" class="history-box">Nenhuma ação registada ainda.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let players = [];
+    let historyLog = [];
+    let lastState = null;
+
+    function saveToLocalStorage() {
+        localStorage.setItem('eclipse_players', JSON.stringify(players));
+        localStorage.setItem('eclipse_history', JSON.stringify(historyLog));
+    }
+
+    function addPlayer() {
+        const nameInput = document.getElementById('player-name');
+        const name = nameInput.value.trim();
+        if(!name) return alert('Digite um nome válido.');
+        if(players.length >= 20) return alert('Limite máximo de 20 jogadores atingido.');
+        
+        players.push({
+            name: name,
+            xp: 0,
+            position: 1,
+            planetsUnlocked: 0,
+            errors: 0,
+            inPluto: false
+        });
+        nameInput.value = '';
+        updateSetupList();
+    }
+
+    function updateSetupList() {
+        document.getElementById('player-count').innerText = players.length;
+        const list = document.getElementById('setup-list');
+        list.innerHTML = players.map((p, i) => `<div>👤 ${p.name} <button onclick="removePlayer(${i})" style="width:auto; padding:2px 8px; background:var(--danger)">X</button></div>`).join('');
+    }
+
+    function removePlayer(index) {
+        players.splice(index, 1);
+        updateSetupList();
+    }
+
+    function startMatch() {
+        if(players.length === 0) return alert('Adicione pelo menos um jogador antes de começar.');
+        document.getElementById('setup-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+        renderGame();
+    }
+
+    function getRank(xp) {
+        if(xp <= 19) return "Astronauta Iniciante";
+        if(xp <= 39) return "Explorador Espacial";
+        if(xp <= 59) return "Cientista Galáctico";
+        if(xp <= 79) return "Capitão Estelar";
+        return "Guardião do Sistema Solar";
+    }
+
+    function recordState() {
+        lastState = JSON.parse(JSON.stringify(players));
+    }
+
+    function logAction(text) {
+        historyLog.unshift(`[${new Date().toLocaleTimeString()}] ${text}`);
+        if(historyLog.length > 20) historyLog.pop();
+        saveToLocalStorage();
+        renderGame();
+    }
+
+    function updatePlayerScore(index, xpChange, posChange, errorAdd, customMsg) {
+        recordState();
+        let p = players[index];
+        
+        if (p.inPluto) {
+            alert(`${p.name} está em Plutão! Resolva o retorno ao início primeiro.`);
+            return;
+        }
+
+        p.xp = Math.max(0, p.xp + xpChange);
+        if (xpChange === 8) p.planetsUnlocked++;
+        if (errorAdd) {
+            p.errors++;
+            if (p.errors >= 3) {
+                p.inPluto = true;
+                logAction(`🚨 ${p.name} acumulou 3 erros e foi enviado para PLUTÃO!`);
+                saveToLocalStorage();
+                renderGame();
+                checkWinner();
+                return;
+            }
+        }
+
+        p.position = Math.max(1, p.position + posChange);
+        logAction(`${p.name}: ${customMsg} (${xpChange >= 0 ? '+' : ''}${xpChange} XP)`);
+        
+        checkWinner();
+    }
+
+    function handlePluto(index, action) {
+        recordState();
+        let p = players[index];
+        if (action === 'return') {
+            p.position = 1;
+            p.errors = 0;
+            p.inPluto = false;
+            logAction(`🚀 ${p.name} respondeu em Plutão e retornou ao início (Casa 1)!`);
+        }
+        saveToLocalStorage();
+        renderGame();
+    }
+
+    function undoLastAction() {
+        if (!lastState) return alert('Nada para desfazer.');
+        players = JSON.parse(JSON.stringify(lastState));
+        lastState = null;
+        logAction('↩️ Última ação desfeita.');
+    }
+
+    function checkWinner() {
+        const winner = players.find(p => p.position >= 30);
+        if (winner) {
+            alert(`🎉 FIM DE PARTIDA! ${winner.name} chegou ao final e venceu o jogo!`);
+        }
+    }
+
+    function resetMatch() {
+        if(confirm('Tem certeza que deseja reiniciar a partida e apagar os dados?')) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
+    function renderGame() {
+        const container = document.getElementById('players-container');
+        container.innerHTML = players.map((p, i) => `
+            <div class="player-card">
+                <div class="player-header">
+                    <span>${p.name}</span>
+                    <span>${p.xp} XP</span>
+                </div>
+                <div class="player-info">
+                    Casa: <strong>${p.position}</strong> | 
+                    Planetas Desbloqueados: <strong>${p.planetsUnlocked}</strong> | 
+                    Erros: <span style="color:var(--danger)">${p.errors}/3</span><br>
+                    Patente: <span class="badge">${getRank(p.xp)}</span>
+                    ${p.inPluto ? '<br><span style="color:var(--warning); font-weight:bold;">🪐 Em Plutão!</span>' : ''}
+                </div>
+                
+                ${p.inPluto ? `
+                    <button onclick="handlePluto(${i}, 'return')" class="btn-warning">Resolver Plutão (Retornar ao Início)</button>
+                ` : `
+                    <div class="action-grid">
+                        <button onclick="updatePlayerScore(${i}, 8, 1, false, 'Acertou Planeta')">Planeta Certo (+8XP)</button>
+                        <button onclick="updatePlayerScore(${i}, 0, 0, true, 'Errou Planeta')">Planeta Errado (Erro)</button>
+                        <button onclick="updatePlayerScore(${i}, 5, 0, false, 'Quiz Certo')">Quiz Certo (+5XP)</button>
+                        <button onclick="updatePlayerScore(${i}, 0, 0, false, 'Quiz Errado')">Quiz Errado (0XP)</button>
+                        <button onclick="updatePlayerScore(${i}, 3, 1, false, 'Casa Bônus')">Casa Bônus (+3XP)</button>
+                        <button onclick="updatePlayerScore(${i}, -3, 0, false, 'Chuva de Meteoros')">Meteoros (-3XP)</button>
+                        <button onclick="updatePlayerScore(${i}, 0, 0, false, 'Casa Vazia')">Casa Vazia</button>
+                        <button onclick="updatePlayerScore(${i}, 0, -2, false, 'Buraco Negro')">Buraco Negro (-2 Casas)</button>
+                    </div>
+                `}
+            </div>
+        `).join('');
+
+        document.getElementById('history-log').innerHTML = historyLog.join('<br>');
+    }
+</script>
+
+</body>
+</html>
